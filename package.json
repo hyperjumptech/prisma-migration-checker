@@ -1,0 +1,74 @@
+{
+  "name": "prisma-migration-checker",
+  "version": "0.0.6",
+  "description": "Prisma Migration Checker is a CLI tool to check if new Prisma migrations can be applied safely to the database.",
+  "author": "@hyperjumptech",
+  "bin": {
+    "prisma-migration-checker": "./bin/run"
+  },
+  "homepage": "https://github.com/hyperjumptech/prisma-migration-checker",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": "hyperjumptech/prisma-migration-checker",
+  "files": [
+    "/bin",
+    "/dist",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "dependencies": {
+    "@hyperjumptch/prisma-seeder": "https://github.com/hyperjumptech/prisma-seeder/releases/download/v0.0.8/hyperjumptech-prisma-seeder-0.0.8.tgz",
+    "@oclif/core": "^1.19.1",
+    "@oclif/plugin-help": "^5",
+    "@oclif/plugin-plugins": "^2.1.6"
+  },
+  "devDependencies": {
+    "@oclif/test": "^2.2.8",
+    "@types/chai": "^4",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.18.3",
+    "chai": "^4",
+    "eslint": "^7.32.0",
+    "eslint-config-oclif": "^4",
+    "eslint-config-oclif-typescript": "^1.0.3",
+    "mocha": "^9",
+    "oclif": "^3",
+    "shx": "^0.3.3",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.3.1",
+    "typescript": "^4.8.4"
+  },
+  "oclif": {
+    "bin": "prisma-migration-checker",
+    "dirname": "prisma-migration-checker",
+    "commands": "./dist/commands",
+    "default": ".",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "hello": {
+        "description": "Say hello to the world and others"
+      }
+    }
+  },
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . --ext .ts --config .eslintrc",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "yarn lint",
+    "prepack": "yarn build && oclif manifest && oclif readme",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif readme && git add README.md"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "bugs": "https://github.com/hyperjumptech/prisma-migration-checker/issues",
+  "keywords": [
+    "oclif"
+  ],
+  "types": "dist/index.d.ts"
+}
