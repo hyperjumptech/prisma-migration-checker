@@ -30,7 +30,6 @@ prisma-migration-checker --new <path_to_the_new_schema> --current <path_to_the_e
 
 Note that before running Prisma Migration Checker, you need to:
 - have the database used in your prisma.schema running (Postgres, MongoDB, SQLite, etc).
-- if there is no `.env` file, you have to create empty `.env` file first, in the directory where you run this command
 
 ## In CI Pipeline
 
