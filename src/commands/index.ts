@@ -51,14 +51,24 @@ Finish checking.
     execSync(`cp ${flags.new} ./prisma-mc-temp/new-schema.prisma`);
     execSync(`cp ${flags.current} ./prisma-mc-temp/current-schema.prisma`);
 
+    const curPrismaTempLocation = "./prisma-mc-temp/current-schema.prisma";
+    const newPrismaTempLocation = "./prisma-mc-temp/new-schema.prisma";
+    const dbUrl = readEnv("./.env", "DATABASE_URL");
+
+    // update env DB
+    this.log("Updating DATABASE_URL...");
+    const schemaCurText = fs.readFileSync(curPrismaTempLocation, "utf8");
+    const updatedSchemaCurText = schemaCurText.replace(
+      'env("DATABASE_URL")',
+      `"${dbUrl}"`
+    );
+    fs.writeFileSync(curPrismaTempLocation, updatedSchemaCurText);
+
     // // reset DB
     this.log("Resetting DB...");
     execSync(
-      `npx prisma migrate reset --force --skip-generate --schema=${flags.current}`
+      `npx prisma migrate reset --force --skip-generate --schema=${curPrismaTempLocation}`
     );
-
-    const curPrismaTempLocation = "./prisma-mc-temp/current-schema.prisma";
-    const newPrismaTempLocation = "./prisma-mc-temp/new-schema.prisma";
 
     // migrating current schema
     this.log("Migrating current schema...");
@@ -66,15 +76,22 @@ Finish checking.
 
     // seeding fake data
     execSync(
-      `npx prisma-seeder --schema ${curPrismaTempLocation} --database-url ${readEnv(
-        "./.env",
-        "DATABASE_URL"
-      )}`,
+      `npx prisma-seeder --schema ${curPrismaTempLocation} --database-url ${dbUrl}`,
       { stdio: "inherit" }
     );
 
     // migrating new schema
     this.log("Migrating new schema...");
+    
+    // update env DB
+    this.log("Updating DATABASE_URL...");
+    const schemaNewText = fs.readFileSync(newPrismaTempLocation, "utf8");
+    const updatedSchemaNewText = schemaNewText.replace(
+      'env("DATABASE_URL")',
+      `"${dbUrl}"`
+    );
+    fs.writeFileSync(newPrismaTempLocation, updatedSchemaNewText);
+    
     execSync(`npx prisma db push --schema=${newPrismaTempLocation}`);
 
     this.log("Finish checking.");

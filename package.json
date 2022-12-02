@@ -1,6 +1,6 @@
 {
   "name": "prisma-migration-checker",
-  "version": "0.0.7",
+  "version": "0.0.11",
   "description": "Prisma Migration Checker is a CLI tool to check if new Prisma migrations can be applied safely to the database.",
   "author": "@hyperjumptech",
   "bin": {
