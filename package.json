@@ -20,7 +20,7 @@
     "@hyperjumptch/prisma-seeder": "https://github.com/hyperjumptech/prisma-seeder/releases/download/v0.0.9/hyperjumptech-prisma-seeder-0.0.9.tgz",
     "@oclif/core": "^1.19.1",
     "@oclif/plugin-help": "^5",
-    "@oclif/plugin-plugins": "^2.1.6"
+    "@oclif/plugin-plugins": "^2.3.2"
   },
   "devDependencies": {
     "@oclif/test": "^2.2.8",
